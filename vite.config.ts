@@ -48,6 +48,14 @@ export default defineConfig({
     host: true,//ip地址 或 '0.0.0.0' 或 "loaclhost"
     // open: false, //启动后是否自动打开浏览器
     // https: false, // 是否开启 https
+    proxy: {
+      '/api': {
+        target: 'http://localhost:8081', // 目标服务器地址
+        // target: 'http://172.19.178.181:8080', // 目标服务器地址
+        changeOrigin: true, // 是否改变请求源
+        rewrite: (path) => path.replace(/^\/api/, ''), // 重写路径
+      },
+    },
   },
   resolve: {
     alias: {
