@@ -60,57 +60,121 @@
             
             <!-- 预算分布卡片 -->
             <div class="trip-budgets-card">
-              <h4 class="budgets-title">预算分布</h4>
+              <h4 class="budgets-title">
+                <el-icon :size="18"><PieChart /></el-icon>
+                预算分布
+              </h4>
+              
+              <!-- 预算分布图表（简化版环形图） -->
+              <div class="budget-chart-container">
+                <div class="budget-chart">
+                  <div class="budget-chart-inner">
+                    <div class="budget-total">
+                      <div class="budget-total-amount">¥{{ trip.totalBudget.toLocaleString() }}</div>
+                      <div class="budget-total-label">总预算</div>
+                    </div>
+                  </div>
+                  <div class="budget-chart-segments">
+                    <div 
+                      class="budget-segment segment-accommodation" 
+                      :style="{clipPath: getBudgetSegmentPath(trip.accommodationBudget, trip.totalBudget, 0)}"
+                    ></div>
+                    <div 
+                      class="budget-segment segment-dining" 
+                      :style="{clipPath: getBudgetSegmentPath(trip.diningBudget, trip.totalBudget, 
+                        getBudgetPercentage(trip.accommodationBudget, trip.totalBudget))}"
+                    ></div>
+                    <div 
+                      class="budget-segment segment-transportation" 
+                      :style="{clipPath: getBudgetSegmentPath(trip.transportationBudget, trip.totalBudget, 
+                        getBudgetPercentage(trip.accommodationBudget, trip.totalBudget) + 
+                        getBudgetPercentage(trip.diningBudget, trip.totalBudget))}"
+                    ></div>
+                    <div 
+                      class="budget-segment segment-ticket" 
+                      :style="{clipPath: getBudgetSegmentPath(trip.attractionsBudget, trip.totalBudget, 
+                        getBudgetPercentage(trip.accommodationBudget, trip.totalBudget) + 
+                        getBudgetPercentage(trip.diningBudget, trip.totalBudget) + 
+                        getBudgetPercentage(trip.transportationBudget, trip.totalBudget))}"
+                    ></div>
+                    <div 
+                      class="budget-segment segment-shopping" 
+                      :style="{clipPath: getBudgetSegmentPath(trip.shoppingBudget, trip.totalBudget, 
+                        getBudgetPercentage(trip.accommodationBudget, trip.totalBudget) + 
+                        getBudgetPercentage(trip.diningBudget, trip.totalBudget) + 
+                        getBudgetPercentage(trip.transportationBudget, trip.totalBudget) + 
+                        getBudgetPercentage(trip.attractionsBudget, trip.totalBudget))}"
+                    ></div>
+                  </div>
+                </div>
+              </div>
+              
+              <!-- 预算详情列表 -->
               <div class="trip-budgets">
                 <div class="budget-item">
-                  <div class="budget-label">住宿</div>
-                  <div class="budget-value">¥{{ trip.accommodationBudget.toLocaleString() }}</div>
+                  <div class="budget-info">
+                    <span class="budget-label">住宿</span>
+                    <span class="budget-value">¥{{ trip.accommodationBudget.toLocaleString() }}</span>
+                  </div>
                   <div class="budget-progress">
                     <div 
-                      class="budget-progress-bar" 
+                      class="budget-progress-bar segment-accommodation" 
                       :style="{width: getBudgetPercentage(trip.accommodationBudget, trip.totalBudget) + '%'}"
                     ></div>
                   </div>
+                  <span class="budget-percentage">{{ getBudgetPercentage(trip.accommodationBudget, trip.totalBudget) }}%</span>
                 </div>
                 <div class="budget-item">
-                  <div class="budget-label">餐饮</div>
-                  <div class="budget-value">¥{{ trip.diningBudget.toLocaleString() }}</div>
+                  <div class="budget-info">
+                    <span class="budget-label">餐饮</span>
+                    <span class="budget-value">¥{{ trip.diningBudget.toLocaleString() }}</span>
+                  </div>
                   <div class="budget-progress">
                     <div 
-                      class="budget-progress-bar" 
+                      class="budget-progress-bar segment-dining" 
                       :style="{width: getBudgetPercentage(trip.diningBudget, trip.totalBudget) + '%'}"
                     ></div>
                   </div>
+                  <span class="budget-percentage">{{ getBudgetPercentage(trip.diningBudget, trip.totalBudget) }}%</span>
                 </div>
                 <div class="budget-item">
-                  <div class="budget-label">交通</div>
-                  <div class="budget-value">¥{{ trip.transportationBudget.toLocaleString() }}</div>
+                  <div class="budget-info">
+                    <span class="budget-label">交通</span>
+                    <span class="budget-value">¥{{ trip.transportationBudget.toLocaleString() }}</span>
+                  </div>
                   <div class="budget-progress">
                     <div 
-                      class="budget-progress-bar" 
+                      class="budget-progress-bar segment-transportation" 
                       :style="{width: getBudgetPercentage(trip.transportationBudget, trip.totalBudget) + '%'}"
                     ></div>
                   </div>
+                  <span class="budget-percentage">{{ getBudgetPercentage(trip.transportationBudget, trip.totalBudget) }}%</span>
                 </div>
                 <div class="budget-item">
-                  <div class="budget-label">门票</div>
-                  <div class="budget-value">¥{{ trip.attractionsBudget.toLocaleString() }}</div>
+                  <div class="budget-info">
+                    <span class="budget-label">门票</span>
+                    <span class="budget-value">¥{{ trip.attractionsBudget.toLocaleString() }}</span>
+                  </div>
                   <div class="budget-progress">
                     <div 
-                      class="budget-progress-bar" 
+                      class="budget-progress-bar segment-ticket" 
                       :style="{width: getBudgetPercentage(trip.attractionsBudget, trip.totalBudget) + '%'}"
                     ></div>
                   </div>
+                  <span class="budget-percentage">{{ getBudgetPercentage(trip.attractionsBudget, trip.totalBudget) }}%</span>
                 </div>
                 <div class="budget-item">
-                  <div class="budget-label">购物</div>
-                  <div class="budget-value">¥{{ trip.shoppingBudget.toLocaleString() }}</div>
+                  <div class="budget-info">
+                    <span class="budget-label">购物</span>
+                    <span class="budget-value">¥{{ trip.shoppingBudget.toLocaleString() }}</span>
+                  </div>
                   <div class="budget-progress">
                     <div 
-                      class="budget-progress-bar" 
+                      class="budget-progress-bar segment-shopping" 
                       :style="{width: getBudgetPercentage(trip.shoppingBudget, trip.totalBudget) + '%'}"
                     ></div>
                   </div>
+                  <span class="budget-percentage">{{ getBudgetPercentage(trip.shoppingBudget, trip.totalBudget) }}%</span>
                 </div>
               </div>
             </div>
@@ -170,49 +234,9 @@
         <el-empty description="暂无行程安排" />
       </div>
       <div v-else class="trip-schedule">
-        <!-- 行程概览卡片 -->
-        <div class="trip-overview-card">
-          <div class="overview-header">
-            <h3>行程概览</h3>
-            <div class="overview-stats">
-              <div class="stat-item">
-                <div class="stat-value">{{ currentTripSchedule.length }}</div>
-                <div class="stat-label">行程项目</div>
-              </div>
-              <div class="stat-item">
-                <div class="stat-value">{{ getDaysList().length }}</div>
-                <div class="stat-label">总天数</div>
-              </div>
-              <div class="stat-item">
-                <div class="stat-value">¥{{ calculateTotalCost().toLocaleString() }}</div>
-                <div class="stat-label">总花费</div>
-              </div>
-            </div>
-          </div>
-          
-          <!-- 行程类型分布 -->
-          <div class="trip-type-distribution">
-            <h4>行程类型分布</h4>
-            <div class="type-stats">
-              <div v-for="typeData in getTypeDistribution()" :key="typeData.type" class="type-stat-item">
-                <div class="type-info">
-                  <span class="type-name">{{ typeData.name }}</span>
-                  <span class="type-count">({{ typeData.count }})</span>
-                </div>
-                <div class="type-progress">
-                  <div 
-                    class="type-progress-bar" 
-                    :class="getTypeClass(typeData.type)"
-                    :style="{width: typeData.percentage + '%'}"
-                  ></div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
         
         <!-- 每日行程详情 -->
-        <div class="daily-schedules">
+        <div class="daily-schedules" style="margin-top: -15px">
           <h3 class="section-title">详细行程安排</h3>
           <div v-for="day in getDaysList()" :key="day" class="schedule-day">
             <div class="day-header">
@@ -253,7 +277,7 @@
                     </div>
                     
                     <!-- 费用 -->
-                    <div v-if="schedule.cost" class="schedule-cost">
+                    <div v-if="schedule.cost !== undefined && schedule.cost !== null" class="schedule-cost">
                       <el-icon><Wallet /></el-icon>
                       ¥{{ schedule.cost.toLocaleString() }}
                     </div>
@@ -269,9 +293,9 @@
 </template>
 
 <script setup lang="ts">
-import { ref, reactive, onMounted } from 'vue';
+import { ref, onMounted } from 'vue';
 import { ElMessage, ElMessageBox } from 'element-plus';
-import { Calendar, User, Wallet, Delete, Location } from '@element-plus/icons-vue';
+import { Calendar, User, Wallet, Delete, Location, Clock, PieChart, TrendCharts, Coffee, Ticket, ShoppingBag, MapLocation, HomeFilled, Ship } from '@element-plus/icons-vue';
 import { request } from '../../util/request';
 import { useRouter } from 'vue-router';
 
@@ -441,6 +465,41 @@ const getTripStatusText = (trip: any) => {
 const getBudgetPercentage = (amount: number, total: number) => {
   if (total === 0) return 0;
   return Math.round((amount / total) * 100);
+};
+
+// 生成预算分布扇形图路径
+const getBudgetSegmentPath = (amount: number, total: number, startPercentage: number) => {
+  if (total === 0 || amount === 0) return 'circle(50% at 50% 50%)';
+  
+  const percentage = (amount / total) * 100;
+  const startAngle = (startPercentage / 100) * 360 - 90;
+  const endAngle = ((startPercentage + percentage) / 100) * 360 - 90;
+  
+  // 检查是否为完整圆
+  if (percentage >= 100) {
+    return 'circle(50% at 50% 50%)';
+  }
+  
+  // 计算路径
+  const startX = 50 + 50 * Math.cos(startAngle * Math.PI / 180);
+  const startY = 50 + 50 * Math.sin(startAngle * Math.PI / 180);
+  const endX = 50 + 50 * Math.cos(endAngle * Math.PI / 180);
+  const endY = 50 + 50 * Math.sin(endAngle * Math.PI / 180);
+  const largeArcFlag = percentage > 50 ? 1 : 0;
+  
+  return `polygon(50% 50%, ${startX}% ${startY}%, ${endX}% ${endY}%)`;
+};
+
+// 获取类型对应的图标
+const getTypeIcon = (type: string) => {
+  const iconMap: Record<string, any> = {
+    'ACCOMMODATION': HomeFilled,
+    'DINING': Coffee,
+    'TRANSPORTATION': Ship,
+    'TICKET': Ticket,
+    'SHOPPING': ShoppingBag
+  };
+  return iconMap[type] || Location;
 };
 
 // 获取天数列表（用于详情展示）
@@ -729,58 +788,186 @@ onMounted(() => {
 }
 
 /* 预算分布卡片 */
-.trip-budgets-card {
-  background: #fafafa;
-  border-radius: 10px;
-  padding: 20px;
-  margin-bottom: 16px;
-}
+  .trip-budgets-card {
+    background: #ffffff;
+    border-radius: 12px;
+    padding: 24px;
+    margin-bottom: 16px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+    border: 1px solid #f0f2f5;
+  }
 
-.budgets-title {
-  font-size: 16px;
-  font-weight: 600;
-  color: #303133;
-  margin-bottom: 16px;
-}
+  .budgets-title {
+    font-size: 18px;
+    font-weight: 600;
+    color: #303133;
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
 
-.trip-budgets {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-}
+  /* 预算图表样式 */
+  .budget-chart-container {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 24px;
+  }
 
-.budget-item {
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-}
+  .budget-chart {
+    position: relative;
+    width: 160px;
+    height: 160px;
+  }
 
-.budget-label {
-  font-size: 14px;
-  color: #606266;
-  display: flex;
-  justify-content: space-between;
-}
+  .budget-chart-segments {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    overflow: hidden;
+  }
 
-.budget-value {
-  font-weight: 500;
-  color: #303133;
-}
+  .budget-segment {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    transition: transform 0.3s ease;
+  }
 
-.budget-progress {
-  width: 100%;
-  height: 6px;
-  background: #e9ecef;
-  border-radius: 3px;
-  overflow: hidden;
-}
+  .budget-segment:hover {
+    transform: scale(1.05);
+  }
 
-.budget-progress-bar {
-  height: 100%;
-  background: linear-gradient(90deg, var(--primary-color), #667eea);
-  border-radius: 3px;
-  transition: width 0.6s ease;
-}
+  .segment-accommodation {
+    background: #67c23a;
+  }
+
+  .segment-dining {
+    background: #e6a23c;
+  }
+
+  .segment-transportation {
+    background: #409eff;
+  }
+
+  .segment-ticket {
+    background: #909399;
+  }
+
+  .segment-shopping {
+    background: #f56c6c;
+  }
+
+  .budget-chart-inner {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    right: 20px;
+    bottom: 20px;
+    background: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
+    z-index: 1;
+  }
+
+  .budget-total {
+    text-align: center;
+  }
+
+  .budget-total-amount {
+    font-size: 18px;
+    font-weight: 700;
+    color: #303133;
+    line-height: 1.2;
+  }
+
+  .budget-total-label {
+    font-size: 12px;
+    color: #909399;
+    margin-top: 4px;
+  }
+
+  /* 预算详情列表 */
+  .trip-budgets {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .budget-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    position: relative;
+  }
+
+  .budget-info {
+    display: flex;
+    justify-content: space-between;
+    flex: 0 0 200px;
+  }
+
+  .budget-label {
+    font-size: 14px;
+    font-weight: 500;
+    color: #606266;
+  }
+
+  .budget-value {
+    font-size: 14px;
+    font-weight: 600;
+    color: #303133;
+  }
+
+  .budget-progress {
+    flex: 1;
+    height: 8px;
+    background: #f0f2f5;
+    border-radius: 4px;
+    overflow: hidden;
+    position: relative;
+  }
+
+  .budget-progress-bar {
+    height: 100%;
+    border-radius: 4px;
+    transition: width 0.8s ease, transform 0.2s ease;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .budget-progress-bar::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+    animation: shimmer 2s infinite;
+  }
+
+  /* 通用动画效果 */
+  @keyframes shimmer {
+    0% { left: -100%; }
+    100% { left: 100%; }
+  }
+
+  .budget-progress-bar:hover {
+    transform: scaleY(1.2);
+  }
+
+  .budget-percentage {
+    font-size: 12px;
+    font-weight: 600;
+    color: #909399;
+    min-width: 35px;
+    text-align: right;
+  }
 
 /* 时间信息 */
 .trip-time {
@@ -931,55 +1118,193 @@ onMounted(() => {
 }
 
 /* 行程类型分布 */
-.trip-type-distribution h4 {
-  font-size: 16px;
-  font-weight: 600;
-  color: #303133;
-  margin-bottom: 16px;
-}
+  .distribution-title {
+    font-size: 18px;
+    font-weight: 600;
+    color: #303133;
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
 
-.type-stats {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-}
+  /* 类型卡片网格 */
+  .type-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    gap: 16px;
+    margin-bottom: 24px;
+  }
 
-.type-stat-item {
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-}
+  .type-card {
+    padding: 20px;
+    border-radius: 12px;
+    background: white;
+    border: 1px solid #f0f2f5;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+  }
 
-.type-info {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  font-size: 14px;
-}
+  .type-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+  }
 
-.type-name {
-  font-weight: 500;
-  color: #606266;
-}
+  .type-card-icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #f0f2f5;
+  }
 
-.type-count {
-  color: #909399;
-  font-size: 12px;
-}
+  .type-accommodation .type-card-icon {
+    background: rgba(103, 194, 58, 0.1);
+    color: #67c23a;
+  }
 
-.type-progress {
-  width: 100%;
-  height: 8px;
-  background: #e9ecef;
-  border-radius: 4px;
-  overflow: hidden;
-}
+  .type-dining .type-card-icon {
+    background: rgba(230, 162, 60, 0.1);
+    color: #e6a23c;
+  }
 
-.type-progress-bar {
-  height: 100%;
-  border-radius: 4px;
-  transition: width 0.6s ease;
-}
+  .type-transportation .type-card-icon {
+    background: rgba(64, 158, 255, 0.1);
+    color: #409eff;
+  }
+
+  .type-ticket .type-card-icon {
+    background: rgba(144, 147, 153, 0.1);
+    color: #909399;
+  }
+
+  .type-shopping .type-card-icon {
+    background: rgba(245, 108, 108, 0.1);
+    color: #f56c6c;
+  }
+
+  .type-card-content {
+    flex: 1;
+  }
+
+  .type-card-title {
+    font-size: 14px;
+    font-weight: 600;
+    color: #303133;
+    margin-bottom: 4px;
+  }
+
+  .type-card-stats {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  .type-card-count {
+    font-size: 12px;
+    color: #606266;
+  }
+
+  .type-card-percentage {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--primary-color);
+  }
+
+  /* 类型统计进度条 */
+  .type-stats {
+    background: white;
+    border-radius: 12px;
+    padding: 20px;
+    border: 1px solid #f0f2f5;
+  }
+
+  .type-stat-item {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-bottom: 16px;
+  }
+
+  .type-stat-item:last-child {
+    margin-bottom: 0;
+  }
+
+  .type-info {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 14px;
+  }
+
+  .type-info-left {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .type-icon {
+    font-size: 16px;
+  }
+
+  .type-name {
+    font-weight: 500;
+    color: #303133;
+  }
+
+  .type-info-right {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .type-count {
+    color: #606266;
+    font-size: 13px;
+  }
+
+  .type-percentage {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--primary-color);
+  }
+
+  .type-progress {
+    width: 100%;
+    height: 10px;
+    background: #f0f2f5;
+    border-radius: 5px;
+    overflow: hidden;
+    position: relative;
+  }
+
+  .type-progress-bar {
+    height: 100%;
+    border-radius: 5px;
+    transition: width 0.8s ease, transform 0.2s ease;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .type-progress-bar::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+    animation: shimmer 2s infinite;
+  }
+
+  .type-progress-bar:hover {
+    transform: scaleY(1.2);
+  }
 
 /* 每日行程标题 */
 .daily-schedules .section-title {
@@ -1313,32 +1638,53 @@ onMounted(() => {
 
 /* 响应式设计 */
 @media (max-width: 768px) {
-  .trips-page {
-    padding: 16px;
-    padding-top: 90px;
-  }
-  
-  .page-header h1 {
-    font-size: 28px;
-  }
-  
-  .page-subtitle {
-    font-size: 16px;
-  }
-  
-  .trips-container {
-    padding: 20px;
-  }
-  
-  .trip-meta {
-    grid-template-columns: 1fr;
-    gap: 12px;
-  }
-  
-  .overview-stats {
-    grid-template-columns: 1fr;
-    min-width: auto;
-  }
+    .trips-page {
+      padding: 16px;
+      padding-top: 90px;
+    }
+    
+    .page-header h1 {
+      font-size: 28px;
+    }
+    
+    .page-subtitle {
+      font-size: 16px;
+    }
+    
+    .trips-container {
+      padding: 20px;
+    }
+    
+    .trip-meta {
+      grid-template-columns: 1fr;
+      gap: 12px;
+    }
+    
+    /* 预算图表响应式 */
+    .budget-chart {
+      width: 120px;
+      height: 120px;
+    }
+    
+    .budget-chart-inner {
+      top: 15px;
+      left: 15px;
+      right: 15px;
+      bottom: 15px;
+    }
+    
+    .budget-total-amount {
+      font-size: 16px;
+    }
+    
+    .budget-info {
+      flex: 0 0 150px;
+    }
+    
+    .overview-stats {
+      grid-template-columns: 1fr;
+      min-width: auto;
+    }
   
   .day-header {
     flex-direction: column;
