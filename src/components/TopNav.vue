@@ -4,19 +4,19 @@
       <!-- 左侧导航 -->
       <div class="nav-left">
         <!-- Logo和首页 -->
-        <router-link to="/" class="nav-item nav-home">
+        <router-link to="/" class="nav-item nav-home" exact>
           <home-filled class="nav-icon" />
           <span>首页</span>
         </router-link>
         
         <!-- 核心功能：智能行程规划 -->
-        <router-link to="/planning" class="nav-item nav-planning">
+        <router-link to="/planning" class="nav-item nav-planning" exact>
           <map-icon class="nav-icon" />
           <span>智能行程规划</span>
         </router-link>
         
         <!-- 辅助功能：行程记录管理 -->
-        <router-link to="/trips" class="nav-item nav-trips">
+        <router-link to="/trips" class="nav-item nav-trips" exact>
           <ticket class="nav-icon" />
           <span>行程记录管理</span>
         </router-link>
@@ -186,10 +186,8 @@ const handleDropdownCommand = async (command: string) => {
 
 /* 智能行程规划 - 核心功能突出显示 */
 .nav-planning {
-  font-weight: 600;
-  background: linear-gradient(135deg, #409eff 0%, #1890ff 100%);
-  color: white;
-  box-shadow: 0 3px 8px rgba(64, 158, 255, 0.3);
+  color: #606266;
+  font-weight: 500;
 }
 
 .nav-planning:hover {
@@ -200,9 +198,10 @@ const handleDropdownCommand = async (command: string) => {
 }
 
 .nav-planning.router-link-active {
-  background: linear-gradient(135deg, #3a8ee6 0%, #3061cc 100%);
-  transform: translateY(-1px);
-  box-shadow: 0 4px 10px rgba(58, 142, 230, 0.4);
+  font-weight: 600;
+  background: linear-gradient(135deg, #409eff 0%, #1890ff 100%);
+  color: white;
+  box-shadow: 0 3px 8px rgba(64, 158, 255, 0.3);
 }
 
 /* 行程记录管理 - 辅助功能 */
@@ -212,13 +211,17 @@ const handleDropdownCommand = async (command: string) => {
 }
 
 .nav-trips:hover {
-  color: #409eff;
+  background: linear-gradient(135deg, #66b1ff 0%, #409eff 100%);
+  color: white;
+  transform: translateY(-2px);
+  box-shadow: 0 5px 12px rgba(64, 158, 255, 0.4);
 }
 
 .nav-trips.router-link-active {
-  color: #409eff;
-  background-color: rgba(64, 158, 255, 0.08);
   font-weight: 600;
+  background: linear-gradient(135deg, #409eff 0%, #1890ff 100%);
+  color: white;
+  box-shadow: 0 3px 8px rgba(64, 158, 255, 0.3);
 }
 
 /* 右侧用户区域 */

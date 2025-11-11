@@ -8,8 +8,8 @@ const route = useRoute();
 <template>
   <div class="layout-container">
     <!-- 只在非首页页面显示导航栏 -->
-    <TopNav v-if="route.path === '/planning'"/>
-    <main class="main-container" :class="{ 'has-nav': route.path === '/planning' }">
+    <TopNav v-if="route.path === '/planning' || route.path === '/trips'"/>
+    <main class="main-container" :class="{ 'has-nav': route.path === '/planning' || route.path === '/trips' }">
       <router-view />
     </main>
   </div>

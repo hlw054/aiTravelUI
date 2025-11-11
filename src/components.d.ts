@@ -9,10 +9,13 @@ declare module 'vue' {
   export interface GlobalComponents {
     ElAvatar: typeof import('element-plus/es')['ElAvatar']
     ElButton: typeof import('element-plus/es')['ElButton']
+    ElCollapseTransition: typeof import('element-plus/es')['ElCollapseTransition']
     ElDatePicker: typeof import('element-plus/es')['ElDatePicker']
+    ElDialog: typeof import('element-plus/es')['ElDialog']
     ElDropdown: typeof import('element-plus/es')['ElDropdown']
     ElDropdownItem: typeof import('element-plus/es')['ElDropdownItem']
     ElDropdownMenu: typeof import('element-plus/es')['ElDropdownMenu']
+    ElEmpty: typeof import('element-plus/es')['ElEmpty']
     ElForm: typeof import('element-plus/es')['ElForm']
     ElFormItem: typeof import('element-plus/es')['ElFormItem']
     ElIcon: typeof import('element-plus/es')['ElIcon']
@@ -20,6 +23,7 @@ declare module 'vue' {
     ElInputNumber: typeof import('element-plus/es')['ElInputNumber']
     ElLoading: typeof import('element-plus/es')['ElLoading']
     ElOption: typeof import('element-plus/es')['ElOption']
+    ElPagination: typeof import('element-plus/es')['ElPagination']
     ElRadioButton: typeof import('element-plus/es')['ElRadioButton']
     ElRadioGroup: typeof import('element-plus/es')['ElRadioGroup']
     ElSelect: typeof import('element-plus/es')['ElSelect']
@@ -27,5 +31,8 @@ declare module 'vue' {
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
     TopNav: typeof import('./components/TopNav.vue')['default']
+  }
+  export interface ComponentCustomProperties {
+    vLoading: typeof import('element-plus/es')['ElLoadingDirective']
   }
 }

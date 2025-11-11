@@ -75,7 +75,8 @@ instance.interceptors.response.use(
 );
 
 function request(args: AxiosRequestConfig<any>) {
-  return instance.request(args)
+  // 正常发送请求到后端接口
+  return instance.request(args);
 }
 
 export { request }
