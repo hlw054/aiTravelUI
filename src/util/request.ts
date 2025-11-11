@@ -7,7 +7,7 @@ import { ElMessage } from 'element-plus'
 // 创建axios实例
 const instance = axios.create({
   baseURL: SERVER_ADDR,
-  timeout: 5000,
+  timeout: 1000000,
   withCredentials: true
 })
 
@@ -41,6 +41,17 @@ instance.interceptors.response.use(
       // 这里可以根据业务需求处理不同的错误码
       console.error('接口错误:', res.msg)
       // 检查响应数据中的code字段
+      if(res.code === 401) {
+          // token失效，进行相应处理，例如跳转到登录页面
+          console.log('token 过期')
+          const user = useUserInfoStore()
+          user.userInfo = null
+          user.isLoggedIn = false
+          user.token = ''
+          localStorage.removeItem('token')
+          ElMessage.warning('登录过期')
+          router.push('/login')
+      }
       return Promise.reject(new Error(res.msg || 'Error'))
     }
     return res;

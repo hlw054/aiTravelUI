@@ -32,7 +32,7 @@ router.beforeEach(async (to, from, next) => {
   // 检查是否需要登录的路由（这里可以根据实际需求修改规则）
   const requiresAuth = !to.path.startsWith('/login') &&
                       !to.path.startsWith('/register') &&
-                      to.path !== '/'
+                      to.path !== '/' 
 
   // 如果路由需要认证但用户未登录，重定向到登录页
   if (requiresAuth && !userStore.isLoggedIn) {
