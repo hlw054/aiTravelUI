@@ -43,7 +43,7 @@
     </div>
     
     <div class="back-home">
-      <a href="/" class="back-home-link">暂不登录，返回主页</a>
+      <a href="/home" class="back-home-link">暂不登录，返回主页</a>
     </div>
   </div>
 </template>

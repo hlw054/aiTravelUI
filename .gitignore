@@ -9,7 +9,7 @@ lerna-debug.log*
 
 node_modules
 .DS_Store
-dist
+# dist 目录现在会被提交到版本控制
 dist-ssr
 coverage
 *.local
